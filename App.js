@@ -1,40 +1,20 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/style-prop-object */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
-import {
-  StatusBar, Text, View, Pressable,
-} from 'react-native';
+import 'react-native-gesture-handler';
+
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import ExchangeRate from './src/page/ExchangeRate';
+import CurrencyConverter from './src/projects/currencyConverter';
+import Header from './src/utils';
+import Home from './src/Home';
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
-const Stack = createNativeStackNavigator();
-const Tab = createMaterialTopTabNavigator();
-
-function Main() {
-  return (
-    <>
-      <Tab.Navigator screenOptions={{ tabBarLabelStyle: { fontSize: 11, color: 'white' }, tabBarStyle: { backgroundColor: '#84CC16' }, tabBarIndicatorStyle: { backgroundColor: 'white' } }}>
-        <Tab.Screen name="Converter" component={HomeScreen} />
-        <Tab.Screen name="Exchange Rate" component={ExchangeRate} />
-      </Tab.Navigator>
-      <StatusBar style="auto" />
-    </>
-  );
-}
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
@@ -44,42 +24,35 @@ export default function App() {
       },
     }}
     >
-      <Stack.Navigator>
-        <Stack.Screen
+      <Drawer.Navigator screenOptions={{
+        drawerStyle: {
+          width: '80%',
+          backgroundColor: 'white',
+        },
+        drawerActiveTintColor: 'black',
+      }}
+      >
+        <Drawer.Screen
           options={{
-            header: () => (
-              <View
-                style={{
-                  height: 60,
-                  backgroundColor: '#84CC16',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  paddingHorizontal: 20,
-                }}
-              >
-                <Pressable
-                  onPress={() => alert('This is a button!')}
-                  title="Info"
-                >
-                  <MaterialCommunityIcons name="menu" size={28} color="white" />
-                </Pressable>
-                <Text
-                  style={{
-                    color: 'white',
-                    textAlign: 'center',
-                    fontSize: 16,
-                    marginLeft: 12,
-                  }}
-                >
-                  Currency Converter
-                </Text>
-              </View>
+            drawerIcon: () => (
+              <MaterialCommunityIcons name="home-outline" size={24} color="black" />
             ),
+            header: (props) => <Header color="#1E293B" {...props} />,
+          }}
+          name="Home"
+          component={Home}
+        />
+        <Drawer.Screen
+          options={{
+            drawerIcon: () => (
+              <MaterialCommunityIcons name="currency-usd" size={24} color="black" />
+            ),
+            header: (props) => <Header color="#84CC16" {...props} />,
           }}
           name="Currency Converter"
-          component={Main}
+          component={CurrencyConverter}
         />
-      </Stack.Navigator>
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }

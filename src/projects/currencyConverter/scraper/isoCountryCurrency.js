@@ -19,7 +19,6 @@ const dataJSON = {
   AR: {
     countryName: 'Argentina', currency: 'ARS', symbol: 'AR$', dateFormat: 'dd/MM/yyyy',
   },
-  AS: { countryName: 'American Samoa', currency: 'USD', symbol: '$' },
   AT: {
     countryName: 'Austria', currency: 'EUR', symbol: '€', dateFormat: 'dd.MM.yyyy',
   },
@@ -52,7 +51,6 @@ const dataJSON = {
   BO: {
     countryName: 'Bolivia', currency: 'BOB', symbol: 'Bs', dateFormat: 'dd-MM-yyyy',
   },
-  BQ: { countryName: 'Bonaire, Saint Eustatius and Saba ', currency: 'USD', symbol: '$' },
   BR: {
     countryName: 'Brazil', currency: 'BRL', symbol: 'R$', dateFormat: 'dd/MM/yyyy',
   },
@@ -113,9 +111,6 @@ const dataJSON = {
   DZ: {
     countryName: 'Algeria', currency: 'DZD', symbol: 'DA', dateFormat: 'dd/MM/yyyy',
   },
-  EC: {
-    countryName: 'Ecuador', currency: 'USD', symbol: '$', dateFormat: 'dd/MM/yyyy',
-  },
   EE: {
     countryName: 'Estonia', currency: 'EUR', symbol: '€', dateFormat: 'd.MM.yyyy',
   },
@@ -133,7 +128,6 @@ const dataJSON = {
   },
   FJ: { countryName: 'Fiji', currency: 'FJD', symbol: 'FJD' },
   FK: { countryName: 'Falkland Islands', currency: 'FKP', symbol: 'FKP' },
-  FM: { countryName: 'Micronesia', currency: 'USD', symbol: '$' },
   FO: { countryName: 'Faroe Islands', currency: 'DKK', symbol: 'Dkr' },
   FR: {
     countryName: 'France', currency: 'EUR', symbol: '€', dateFormat: 'dd/MM/yyyy',
@@ -160,7 +154,6 @@ const dataJSON = {
   GT: {
     countryName: 'Guatemala', currency: 'GTQ', symbol: 'GTQ', dateFormat: 'd/MM/yyyy',
   },
-  GU: { countryName: 'Guam', currency: 'USD', symbol: '$' },
   GW: { countryName: 'Guinea-Bissau', currency: 'XOF', symbol: 'CFA' },
   GY: { countryName: 'Guyana', currency: 'GYD', symbol: 'GYD' },
   HK: {
@@ -190,7 +183,6 @@ const dataJSON = {
   IN: {
     countryName: 'India', currency: 'INR', symbol: 'Rs', dateFormat: 'd/M/yyyy',
   },
-  IO: { countryName: 'British Indian Ocean Territory', currency: 'USD', symbol: '$' },
   IQ: {
     countryName: 'Iraq', currency: 'IQD', symbol: 'IQD', dateFormat: 'dd/MM/yyyy',
   },
@@ -255,7 +247,6 @@ const dataJSON = {
   },
   MF: { countryName: 'Saint Martin', currency: 'EUR', symbol: '€' },
   MG: { countryName: 'Madagascar', currency: 'MGA', symbol: 'MGA' },
-  MH: { countryName: 'Marshall Islands', currency: 'USD', symbol: '$' },
   MK: {
     countryName: 'Macedonia', currency: 'MKD', symbol: 'MKD', dateFormat: 'd.M.yyyy',
   },
@@ -263,7 +254,6 @@ const dataJSON = {
   MM: { countryName: 'Myanmar', currency: 'MMK', symbol: 'MMK' },
   MN: { countryName: 'Mongolia', currency: 'MNT', symbol: 'MNT' },
   MO: { countryName: 'Macao', currency: 'MOP', symbol: 'MOP$' },
-  MP: { countryName: 'Northern Mariana Islands', currency: 'USD', symbol: '$' },
   MQ: { countryName: 'Martinique', currency: 'EUR', symbol: '€' },
   MR: { countryName: 'Mauritania', currency: 'MRU', symbol: 'MRU' },
   MS: { countryName: 'Montserrat', currency: 'XCD', symbol: 'XCD' },
@@ -320,14 +310,10 @@ const dataJSON = {
   },
   PM: { countryName: 'Saint Pierre and Miquelon', currency: 'EUR', symbol: '€' },
   PN: { countryName: 'Pitcairn', currency: 'NZD', symbol: 'NZ$' },
-  PR: {
-    countryName: 'Puerto Rico', currency: 'USD', symbol: '$', dateFormat: 'MM-dd-yyyy',
-  },
   PS: { countryName: 'Palestinian Territory', currency: 'ILS', symbol: '₪' },
   PT: {
     countryName: 'Portugal', currency: 'EUR', symbol: '€', dateFormat: 'dd-MM-yyyy',
   },
-  PW: { countryName: 'Palau', currency: 'USD', symbol: '$' },
   PY: {
     countryName: 'Paraguay', currency: 'PYG', symbol: '₲', dateFormat: 'dd/MM/yyyy',
   },
@@ -374,15 +360,11 @@ const dataJSON = {
   SR: { countryName: 'Suriname', currency: 'SRD', symbol: 'SRD' },
   SS: { countryName: 'South Sudan', currency: 'SSP', symbol: 'SSP' },
   ST: { countryName: 'Sao Tome and Principe', currency: 'STD', symbol: 'STD' },
-  SV: {
-    countryName: 'El Salvador', currency: 'USD', symbol: '$', dateFormat: 'MM-dd-yyyy',
-  },
   SX: { countryName: 'Sint Maarten', currency: 'ANG', symbol: 'ANG' },
   SY: {
     countryName: 'Syria', currency: 'SYP', symbol: 'SY£', dateFormat: 'dd/MM/yyyy',
   },
   SZ: { countryName: 'Swaziland', currency: 'SZL', symbol: 'SZL' },
-  TC: { countryName: 'Turks and Caicos Islands', currency: 'USD', symbol: '$' },
   TD: { countryName: 'Chad', currency: 'XAF', symbol: 'FCFA' },
   TF: { countryName: 'French Southern Territories', currency: 'EUR', symbol: '€' },
   TG: { countryName: 'Togo', currency: 'XOF', symbol: 'CFA' },
@@ -391,7 +373,6 @@ const dataJSON = {
   },
   TJ: { countryName: 'Tajikistan', currency: 'TJS', symbol: 'TJS' },
   TK: { countryName: 'Tokelau', currency: 'NZD', symbol: 'NZ$' },
-  TL: { countryName: 'East Timor', currency: 'USD', symbol: '$' },
   TM: { countryName: 'Turkmenistan', currency: 'TMT', symbol: 'TMT' },
   TN: {
     countryName: 'Tunisia', currency: 'TND', symbol: 'DT', dateFormat: 'dd/MM/yyyy',
@@ -410,7 +391,6 @@ const dataJSON = {
     countryName: 'Ukraine', currency: 'UAH', symbol: '₴', dateFormat: 'dd.MM.yyyy',
   },
   UG: { countryName: 'Uganda', currency: 'UGX', symbol: 'USh' },
-  UM: { countryName: 'United States Minor Outlying Islands', currency: 'USD', symbol: '$' },
   US: {
     countryName: 'United States', currency: 'USD', symbol: '$', dateFormat: 'M/d/yyyy',
   },
@@ -423,8 +403,6 @@ const dataJSON = {
   VE: {
     countryName: 'Venezuela', currency: 'VEF', symbol: 'Bs.F.', dateFormat: 'dd/MM/yyyy',
   },
-  VG: { countryName: 'British Virgin Islands', currency: 'USD', symbol: '$' },
-  VI: { countryName: 'U.S. Virgin Islands', currency: 'USD', symbol: '$' },
   VN: {
     countryName: 'Vietnam', currency: 'VND', symbol: '₫', dateFormat: 'dd/MM/yyyy',
   },
