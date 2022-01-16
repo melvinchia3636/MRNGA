@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable react/jsx-filename-extension */
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -145,7 +144,7 @@ export default function Converter() {
           delimiter=","
           separator="."
           precision={2}
-          onChangeText={(formattedValue) => {
+          onChangeText={() => {
             if (!fromValue) {
               setFromValue(0);
             }
@@ -192,7 +191,7 @@ export default function Converter() {
           delimiter=","
           separator="."
           precision={2}
-          onChangeText={(formattedValue) => {
+          onChangeText={() => {
             if (!fromValue) {
               setFromValue(0);
             }

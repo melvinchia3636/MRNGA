@@ -1,5 +1,4 @@
 /* eslint-disable react/style-prop-object */
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';

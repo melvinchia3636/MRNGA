@@ -1,8 +1,7 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, {
   useSharedValue, useAnimatedStyle, withTiming, Easing, withRepeat, cancelAnimation,
