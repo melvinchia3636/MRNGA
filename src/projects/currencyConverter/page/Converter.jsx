@@ -1,41 +1,25 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import {
+  View, Text, Pressable, Button, FlatList,
+} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 
 import CountryFlag from 'react-native-country-flag';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { createStackNavigator } from '@react-navigation/stack';
 import { getISOByParam } from '../scraper/isoCountryCurrency';
 import { getAvailableFromCountry } from '../scraper/converter';
+import currencyNames from '../data/currenciesName.json';
 
-export default function Converter() {
+function ConverterHome({ navigation }) {
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('MYR');
-  const [fromCurrencyChooserOpen, setFromCurrencyChooserOpen] = useState(false);
-  const [toCurrencyChooserOpen, setToCurrencyChooserOpen] = useState(false);
-  const [availableToCurrency, setAvailableToCurrency] = useState([]);
   const [fromValue, setFromValue] = useState(0);
 
-  useEffect(() => {
-    getAvailableFromCountry().then((res) => {
-      const data = res.filter((e) => getISOByParam('currency', e)).map((e) => ({
-        label: e,
-        value: e,
-        icon: () => (
-          <CountryFlag
-            isoCode={getISOByParam('currency', e)}
-            size={20}
-            style={{
-              borderRadius: 3,
-            }}
-          />
-        ),
-      }));
-      setAvailableToCurrency(data);
-    });
-  }, []);
+  useEffect(() => {});
 
   return (
     <View style={{ padding: 16, paddingTop: 12 }}>
@@ -46,64 +30,97 @@ export default function Converter() {
         borderBottomWidth: 1,
         borderBottomColor: '#E2E8F0',
         paddingBottom: 8,
+        overflow: 'visible',
       }}
       >
-        <DropDownPicker
-          open={fromCurrencyChooserOpen}
-          value={fromCurrency}
-          items={availableToCurrency}
-          setOpen={setFromCurrencyChooserOpen}
-          setValue={setFromCurrency}
-          setItems={setAvailableToCurrency}
-          ArrowDownIconComponent={() => <FontAwesome5 name="sort-down" size={16} style={{ marginTop: -6 }} />}
-          ArrowUpIconComponent={() => <FontAwesome5 name="sort-up" size={16} style={{ marginTop: 6 }} />}
+        <View style={{
+          borderRadius: 6,
+          overflow: 'hidden',
+        }}
+        >
+          <Pressable
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingHorizontal: 16,
+              paddingVertical: 8,
+              overflow: 'hidden',
+              borderRadius: 6,
+            }}
+            onPress={() => navigation.navigate(
+              'CurrencyChooser',
+              { currentSelected: fromCurrency, setCurrentSelected: setFromCurrency },
+            )}
+            android_ripple={{ color: '#CBD5E1' }}
+          >
+            <CountryFlag
+              isoCode={getISOByParam('currency', fromCurrency)}
+              size={20}
+              style={{
+                borderRadius: 3,
+              }}
+            />
+            <Text style={{
+              marginLeft: 8,
+              fontSize: 12,
+              width: 60,
+            }}
+            >
+              {fromCurrency}
+            </Text>
+            <FontAwesome5 name="sort-down" size={16} style={{ marginTop: -6 }} />
+          </Pressable>
+        </View>
+        <Pressable
           style={{
-            borderRadius: 6,
-            borderWidth: 0,
-            backgroundColor: 'transparent',
-          }}
-          containerStyle={{
-            width: 150,
-          }}
-          textStyle={{
-            color: '#334155',
-            fontWeight: 'normal',
-            fontSize: 12,
-          }}
-          dropDownContainerStyle={{
-            borderColor: '#F1F5F9',
             padding: 8,
           }}
-        />
-        <FontAwesome5 name="exchange-alt" size={18} color="#334155" />
-        <DropDownPicker
-          open={toCurrencyChooserOpen}
-          value={toCurrency}
-          items={availableToCurrency}
-          setOpen={setToCurrencyChooserOpen}
-          setValue={setToCurrency}
-          setItems={setAvailableToCurrency}
-          placeholder="Select a currency"
-          ArrowDownIconComponent={() => <FontAwesome5 name="sort-down" size={16} style={{ marginTop: -6 }} />}
-          ArrowUpIconComponent={() => <FontAwesome5 name="sort-up" size={16} style={{ marginTop: 6 }} />}
-          style={{
-            borderRadius: 6,
-            borderWidth: 0,
-            backgroundColor: 'transparent',
+          onPress={() => {
+            const tempFrom = fromCurrency;
+            setFromCurrency(toCurrency);
+            setToCurrency(tempFrom);
           }}
-          containerStyle={{
-            width: 150,
-          }}
-          textStyle={{
-            color: '#334155',
-            fontWeight: 'normal',
-            fontSize: 12,
-          }}
-          dropDownContainerStyle={{
-            borderColor: '#F1F5F9',
-            padding: 8,
-          }}
-        />
+        >
+          <FontAwesome5 name="exchange-alt" size={18} color="#334155" />
+        </Pressable>
+        <View style={{
+          borderRadius: 6,
+          overflow: 'hidden',
+        }}
+        >
+          <Pressable
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingHorizontal: 16,
+              paddingVertical: 8,
+              overflow: 'hidden',
+              borderRadius: 6,
+            }}
+            onPress={() => navigation.navigate(
+              'CurrencyChooser',
+              { currentSelected: toCurrency, setCurrentSelected: setToCurrency },
+            )}
+            android_ripple={{ color: '#CBD5E1' }}
+          >
+            <CountryFlag
+              isoCode={getISOByParam('currency', toCurrency)}
+              size={20}
+              style={{
+                borderRadius: 3,
+              }}
+            />
+            <Text style={{
+              marginLeft: 8,
+              fontSize: 12,
+              width: 60,
+            }}
+            >
+              {toCurrency}
+            </Text>
+            <FontAwesome5 name="sort-down" size={16} style={{ marginTop: -6 }} />
+          </Pressable>
+        </View>
       </View>
       <Text style={{
         marginTop: 12,
@@ -200,5 +217,124 @@ export default function Converter() {
         />
       </View>
     </View>
+  );
+}
+
+function CurrencyChooser({ navigation, ...props }) {
+  const [availableToCurrency, setAvailableToCurrency] = useState([]);
+
+  useEffect(() => {
+    getAvailableFromCountry().then((res) => {
+      const data = res.filter((e) => getISOByParam('currency', e)).map((e) => ({
+        label: e,
+        value: e,
+        icon: <CountryFlag
+          isoCode={getISOByParam('currency', e)}
+          size={50}
+          style={{
+            borderRadius: 3,
+          }}
+        />,
+      }));
+      setAvailableToCurrency(data);
+    });
+  }, []);
+
+  return (
+    <View style={{ padding: 16, paddingTop: 12, flex: 1 }}>
+      <Text style={{ fontSize: 16, color: '#334155' }}>Select a currency</Text>
+      <View style={{
+        flex: 0.99,
+      }}
+      >
+        <FlatList
+          style={{
+            marginTop: 12,
+            marginBottom: 12,
+          }}
+          data={availableToCurrency}
+          keyExtractor={(item) => item.label}
+          renderItem={({ item }) => (
+            <Pressable
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingVertical: 8,
+              }}
+              onPress={() => {
+                props.route.params.setCurrentSelected(item.label);
+                navigation.goBack();
+              }}
+              android_ripple={{ color: '#CBD5E1' }}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                {item.icon}
+                <View style={{
+                  marginLeft: 12,
+                }}
+                >
+                  <Text style={{
+                    fontSize: 14,
+                    fontWeight: 'bold',
+                    color: '#334155',
+                  }}
+                  >
+                    {item.label}
+                  </Text>
+                  <Text
+                    style={{
+                      color: '#94A3B8',
+                      fontSize: 12,
+                      width: 200,
+                    }}
+                    numberOfLines={1}
+                  >
+                    {currencyNames.filter((e) => e.cc === item.label)[0]?.name}
+                  </Text>
+                </View>
+              </View>
+              {props.route.params.currentSelected === item.label ? <FontAwesome5 name="check" size={16} style={{ marginRight: 8 }} color="#334155" /> : null}
+            </Pressable>
+          )}
+        />
+      </View>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{
+          backgroundColor: '#84CC16',
+          padding: 12,
+          borderRadius: 6,
+        }}
+      >
+        <Text style={{
+          textAlign: 'center',
+          color: 'white',
+        }}
+        >
+          CANCEL
+        </Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const Stack = createStackNavigator();
+
+export default function Converter() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false, presentation: 'modal' }}>
+      <Stack.Group>
+        <Stack.Screen name="Home" component={ConverterHome} />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="CurrencyChooser" component={CurrencyChooser} />
+      </Stack.Group>
+    </Stack.Navigator>
   );
 }

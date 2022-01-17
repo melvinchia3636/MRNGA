@@ -91,7 +91,7 @@ function ExchangeRate() {
       <View style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 12,
+        marginBottom: 20,
       }}
       >
         <Text style={{

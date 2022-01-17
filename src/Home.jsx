@@ -39,7 +39,7 @@ export default function Home() {
       <Text style={{
         marginTop: 12,
         marginBottom: 20,
-        fontSize: 18,
+        fontSize: 16,
       }}
       >
         Make React Native Great Again
