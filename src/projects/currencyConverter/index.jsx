@@ -16,7 +16,7 @@ export default function Main() {
         color: 'white',
       },
       tabBarStyle: {
-        backgroundColor: '#84CC16',
+        backgroundColor: '#0EA5E9',
       },
       tabBarIndicatorStyle: {
         backgroundColor: 'white',

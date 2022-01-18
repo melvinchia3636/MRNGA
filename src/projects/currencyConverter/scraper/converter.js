@@ -7,4 +7,10 @@ const getAvailableFromCountry = async () => {
   return Object.keys(data.rates);
 };
 
-export { getAvailableFromCountry };
+const getExchangeRates = async (currency) => {
+  const response = await axios.get(`https://open.er-api.com/v6/latest/${currency}`);
+  const { data } = response;
+  return data.rates;
+};
+
+export { getAvailableFromCountry, getExchangeRates };

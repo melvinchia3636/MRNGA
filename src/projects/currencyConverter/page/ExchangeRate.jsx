@@ -59,7 +59,7 @@ function RateItem({ item }) {
         </View>
       </View>
       <Text style={{
-        color: '#84CC16',
+        color: '#0EA5E9',
         flexShrink: 0,
       }}
       >
@@ -95,7 +95,7 @@ function ExchangeRate() {
       }}
       >
         <Text style={{
-          color: '#84CC16',
+          color: '#0EA5E9',
           fontSize: 12,
         }}
         >

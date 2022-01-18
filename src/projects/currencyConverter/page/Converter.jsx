@@ -3,7 +3,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, Pressable, Button, FlatList,
+  View, Text, Pressable, FlatList, LogBox,
 } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 
@@ -11,15 +11,29 @@ import CountryFlag from 'react-native-country-flag';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
 import { getISOByParam } from '../scraper/isoCountryCurrency';
-import { getAvailableFromCountry } from '../scraper/converter';
+import { getAvailableFromCountry, getExchangeRates } from '../scraper/converter';
 import currencyNames from '../data/currenciesName.json';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 function ConverterHome({ navigation }) {
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('MYR');
   const [fromValue, setFromValue] = useState(0);
+  const [toValue, setToValue] = useState(0);
+  const [exchangeRates, setExchangeRates] = useState([]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    getExchangeRates(fromCurrency).then((data) => {
+      setExchangeRates(data);
+    }).catch((e) => { throw e; });
+  }, [fromCurrency]);
+
+  useEffect(() => {
+    setToValue(fromValue * (exchangeRates[toCurrency] || 1));
+  }, [toCurrency, fromValue, exchangeRates]);
 
   return (
     <View style={{ padding: 16, paddingTop: 12 }}>
@@ -130,45 +144,30 @@ function ConverterHome({ navigation }) {
       >
         From currency
       </Text>
-      <View style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-      }}
-      >
-        <Text style={{
+      <CurrencyInput
+        style={{
+          backgroundColor: 'white',
+          padding: 12,
+          borderRadius: 6,
+          borderWidth: 1,
+          borderColor: '#F1F5F9',
+          marginTop: 6,
           fontSize: 24,
-          marginRight: 12,
-          color: '#94A3B8',
+          color: '#334155',
         }}
-        >
-          $
-        </Text>
-        <CurrencyInput
-          style={{
-            backgroundColor: 'white',
-            padding: 12,
-            borderRadius: 6,
-            borderWidth: 1,
-            borderColor: '#F1F5F9',
-            marginTop: 6,
-            fontSize: 24,
-            flex: 1,
-            color: '#334155',
-          }}
-          value={fromValue}
-          onChangeValue={setFromValue}
-          delimiter=","
-          separator="."
-          precision={2}
-          onChangeText={() => {
-            if (!fromValue) {
-              setFromValue(0);
-            }
-          }}
-          minValue={0}
-        />
-      </View>
+        prefix={currencyNames.filter((e) => e.cc === fromCurrency)[0]?.symbol}
+        value={fromValue}
+        onChangeValue={setFromValue}
+        delimiter=","
+        separator="."
+        precision={2}
+        onChangeText={() => {
+          if (!fromValue) {
+            setFromValue(0);
+          }
+        }}
+        minValue={0}
+      />
       <Text style={{
         marginTop: 12,
         fontSize: 12,
@@ -177,45 +176,20 @@ function ConverterHome({ navigation }) {
       >
         To currency
       </Text>
-      <View style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
+      <Text style={{
+        backgroundColor: 'white',
+        padding: 12,
+        borderRadius: 6,
+        borderWidth: 1,
+        borderColor: '#F1F5F9',
+        marginTop: 6,
+        fontSize: 24,
+        color: '#334155',
       }}
       >
-        <Text style={{
-          fontSize: 24,
-          marginRight: 12,
-          color: '#94A3B8',
-        }}
-        >
-          MYR
-        </Text>
-        <CurrencyInput
-          style={{
-            backgroundColor: 'white',
-            padding: 12,
-            borderRadius: 6,
-            borderWidth: 1,
-            borderColor: '#F1F5F9',
-            marginTop: 6,
-            fontSize: 24,
-            flex: 1,
-            color: '#334155',
-          }}
-          value={fromValue}
-          onChangeValue={setFromValue}
-          delimiter=","
-          separator="."
-          precision={2}
-          onChangeText={() => {
-            if (!fromValue) {
-              setFromValue(0);
-            }
-          }}
-          minValue={0}
-        />
-      </View>
+        {currencyNames.filter((e) => e.cc === toCurrency)[0]?.symbol}
+        {toValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+      </Text>
     </View>
   );
 }
@@ -307,7 +281,7 @@ function CurrencyChooser({ navigation, ...props }) {
       <Pressable
         onPress={() => navigation.goBack()}
         style={{
-          backgroundColor: '#84CC16',
+          backgroundColor: '#0EA5E9',
           padding: 12,
           borderRadius: 6,
         }}
