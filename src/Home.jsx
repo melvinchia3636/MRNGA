@@ -78,7 +78,7 @@ export default function Home() {
       }}
       >
         <Button mode="contained" color="#0EA5E9" style={{ marginTop: 12, width: '90%' }}>Sign In</Button>
-        <Button color="#334155" style={{ marginTop: 12 }} labelStyle={{ fontSize: 10 }}>Create Account</Button>
+        <Button color="#334155" style={{ marginTop: 12 }} labelStyle={{ fontSize: 10, fontWeight: 'bold' }}>Create Account</Button>
       </View>
     </View>
   );

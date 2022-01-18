@@ -139,7 +139,8 @@ function ExchangeRate() {
           placeholderTextColor="#CBD5E1"
         />
       </View>
-      {data.rates ? (
+      {Boolean(data.rates)
+        && (
         <FlatList
           style={{
             marginTop: 12,
@@ -160,7 +161,7 @@ function ExchangeRate() {
             <RateItem item={item} />
           )}
         />
-      ) : null}
+        )}
     </View>
   );
 }

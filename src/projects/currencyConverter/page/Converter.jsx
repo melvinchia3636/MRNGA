@@ -273,7 +273,7 @@ function CurrencyChooser({ navigation, ...props }) {
                   </Text>
                 </View>
               </View>
-              {props.route.params.currentSelected === item.label ? <FontAwesome5 name="check" size={16} style={{ marginRight: 8 }} color="#334155" /> : null}
+              {props.route.params.currentSelected === item.label && <FontAwesome5 name="check" size={16} style={{ marginRight: 8 }} color="#334155" />}
             </Pressable>
           )}
         />
