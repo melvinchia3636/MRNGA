@@ -40,9 +40,9 @@ export default function Header({
             style={{
               color: 'white',
               textAlign: 'center',
-              fontSize: 16,
+              fontWeight: 'bold',
+              fontSize: 18,
               marginLeft: 32,
-              marginTop: -5,
             }}
           >
             {getHeaderTitle(options, route.name)}

@@ -27,7 +27,7 @@ function RightMenu() {
       >
         <Menu.Item
           titleStyle={{
-            fontSize: 12,
+            fontSize: 16,
           }}
           onPress={() => {}}
           icon={() => (
@@ -39,12 +39,12 @@ function RightMenu() {
           )}
           title="About"
           style={{
-            height: 40,
+            height: 50,
           }}
         />
         <Menu.Item
           titleStyle={{
-            fontSize: 12,
+            fontSize: 16,
           }}
           onPress={() => {}}
           icon={() => (
@@ -56,15 +56,15 @@ function RightMenu() {
           )}
           title="FAQ"
           style={{
-            height: 40,
+            height: 50,
           }}
         />
         <Menu.Item
           titleStyle={{
-            fontSize: 12,
+            fontSize: 16,
           }}
           style={{
-            height: 40,
+            height: 50,
           }}
           onPress={() => {}}
           icon={() => (

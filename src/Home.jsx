@@ -1,13 +1,12 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, {
   useSharedValue, useAnimatedStyle, withTiming, Easing, withRepeat, cancelAnimation,
 } from 'react-native-reanimated';
-import { useEffect } from 'react/cjs/react.development';
 
 export default function Home() {
   const offset = useSharedValue('0deg');
@@ -46,7 +45,7 @@ export default function Home() {
         </Animated.View>
         <Text style={{
           marginTop: 12,
-          fontSize: 16,
+          fontSize: 24,
           color: '#334155',
         }}
         >
@@ -54,7 +53,7 @@ export default function Home() {
         </Text>
         <Text style={{
           textTransform: 'uppercase',
-          fontSize: 28,
+          fontSize: 36,
           letterSpacing: 3,
           fontWeight: 'bold',
           color: '#334155',
@@ -64,7 +63,7 @@ export default function Home() {
         </Text>
         <Text style={{
           marginBottom: 20,
-          fontSize: 16,
+          fontSize: 24,
           color: '#334155',
         }}
         >
@@ -77,8 +76,8 @@ export default function Home() {
         justifyContent: 'center',
       }}
       >
-        <Button mode="contained" color="#0EA5E9" style={{ marginTop: 12, width: '90%' }}>Sign In</Button>
-        <Button color="#334155" style={{ marginTop: 12 }} labelStyle={{ fontSize: 10, fontWeight: 'bold' }}>Create Account</Button>
+        <Button mode="contained" color="#0EA5E9" style={{ marginTop: 12, width: '90%' }} labelStyle={{ fontSize: 18 }}>Sign In</Button>
+        <Button color="#334155" style={{ marginTop: 12 }} labelStyle={{ fontSize: 14 }}>Create Account</Button>
       </View>
     </View>
   );
