@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "30162995463",
+    "firebase_url": "https://mrnga-e4fd5-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mrnga-e4fd5",
+    "storage_bucket": "mrnga-e4fd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30162995463:android:0d233edbe516192fde1da2",
+        "android_client_info": {
+          "package_name": "com.mrnga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "30162995463-ljmkumr4cd31ith1qb7qg0k6d0pfb9qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7hhP6f-f15Y-3IDYwjAh4c6r0ON8UGrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30162995463-ljmkumr4cd31ith1qb7qg0k6d0pfb9qr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

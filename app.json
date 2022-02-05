@@ -4,6 +4,7 @@
     "slug": "MRNGA",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "MRNGA",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -24,7 +25,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.mrnga"
+      "package": "com.mrnga",
+      "googleServicesFile": "./src/assets/google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"

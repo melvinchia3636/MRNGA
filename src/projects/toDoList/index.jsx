@@ -2,10 +2,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, Text, ScrollView, TextInput, Pressable,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated, {
   Layout,
   SlideInLeft,
@@ -19,7 +20,7 @@ import {
 import Swipeout from 'react-native-swipeout';
 
 function Task({
-  taskList, setTaskList, onRemove, id,
+  taskList, setTaskList, onRemove, id, index,
 }) {
   const swipeBtns = [{
     component: (
@@ -49,7 +50,7 @@ function Task({
 
   return (
     <Animated.View
-      entering={SlideInLeft}
+      entering={SlideInLeft.delay(index * 100)}
       exiting={SlideOutRight}
       layout={Layout}
       style={{
@@ -79,7 +80,7 @@ function Task({
               fontSize: 16,
               paddingHorizontal: 4,
               flex: 0.95,
-              textDecorationLine: taskList[id].completed ? 'line-through' : '',
+              textDecorationLine: taskList[id].completed ? 'line-through' : 'none',
               textDecorationStyle: 'solid',
             }}
             contentStyle={{
@@ -113,6 +114,17 @@ function Task({
 export default function Todo() {
   const [taskList, setTaskList] = useState({});
 
+  useEffect(async () => {
+    const value = await AsyncStorage.getItem('tasks');
+    if (value !== null) {
+      setTaskList(JSON.parse(value));
+    }
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem('tasks', JSON.stringify(taskList));
+  }, [taskList]);
+
   const removeTask = (id) => {
     const newTaskList = { ...taskList };
     delete newTaskList[id];
@@ -132,10 +144,11 @@ export default function Todo() {
     >
       {JSON.stringify(taskList) !== '{}' ? (
         <ScrollView style={[{ width: '100%' }]}>
-          {Object.keys(taskList).map((id) => (
+          {Object.keys(taskList).map((id, index) => (
             <Task
               key={id}
               id={id}
+              index={index}
               taskList={taskList}
               setTaskList={setTaskList}
               onRemove={() => removeTask(id)}
@@ -165,9 +178,9 @@ export default function Todo() {
         color="white"
         uppercase={false}
         onPress={() => {
-          const newTaskList = { ...taskList };
+          const newTaskList = {};
           newTaskList[Date.now()] = { task: '', completed: false, id: Date.now() };
-          setTaskList(newTaskList);
+          setTaskList({ ...newTaskList, ...taskList });
         }}
       />
     </View>
