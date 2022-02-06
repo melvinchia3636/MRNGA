@@ -1,9 +1,9 @@
 /* eslint-disable import/no-cycle */
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable no-return-assign */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import {
+  View, Text, Alert,
+} from 'react-native';
 import { Button } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, {
@@ -15,28 +15,66 @@ import Animated, {
   cancelAnimation,
   interpolate,
 } from 'react-native-reanimated';
+import jwtDecode from 'jwt-decode';
+import * as AuthSession from 'expo-auth-session';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
-import axios from 'axios';
 import { UserDataContext } from '../App';
 
-WebBrowser.maybeCompleteAuthSession();
+const auth0ClientId = 'mlBB7azm9BaD8GSRkPnTSy03Z71wX7zy';
+const auth0Domain = 'https://dev-uj9e-526.us.auth0.com';
+
+function toQueryString(params) {
+  return `?${Object.entries(params)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    .join('&')}`;
+}
 
 export default function Home() {
   const { userData, setUserData } = React.useContext(UserDataContext);
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: '30162995463-sqfpq467ftfikojjv21fd849ns54vqu2.apps.googleusercontent.com',
-    iosClientId: '30162995463-sqfpq467ftfikojjv21fd849ns54vqu2.apps.googleusercontent.com',
-    androidClientId: '30162995463-sqfpq467ftfikojjv21fd849ns54vqu2.apps.googleusercontent.com',
-    webClientId: '30162995463-sqfpq467ftfikojjv21fd849ns54vqu2.apps.googleusercontent.com',
-  });
-  React.useEffect(() => {
-    if (response?.type === 'success') {
-      const { authentication } = response;
-      axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${authentication.accessToken}`).then((res) => setUserData(res.data));
+  const handleResponse = (response) => {
+    if (response.error) {
+      Alert('Authentication error', response.error_description || 'something went wrong');
+      return;
     }
-  }, [response]);
+
+    const jwtToken = response.id_token;
+    const decoded = jwtDecode(jwtToken);
+
+    const data = decoded;
+    setUserData(data);
+    AsyncStorageLib.setItem('userData', JSON.stringify(data));
+  };
+
+  const login = async () => {
+    const redirectUrl = AuthSession.getRedirectUrl();
+
+    const queryParams = toQueryString({
+      client_id: auth0ClientId,
+      redirect_uri: redirectUrl,
+      response_type: 'id_token',
+      scope: 'openid profile email',
+      nonce: 'nonce',
+    });
+    const authUrl = `${auth0Domain}/authorize${queryParams}`;
+    const response = await AuthSession.startAsync({ authUrl });
+
+    if (response.type === 'success') {
+      handleResponse(response.params);
+    }
+  };
+
+  const logout = async () => {
+    const returnUrl = 'com.mrnga://dev-uj9e-526.us.auth0.com/android/com.mrnga/callback';
+
+    await WebBrowser.openBrowserAsync(
+      `${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${returnUrl}`,
+    );
+
+    setUserData({});
+    AsyncStorageLib.setItem('userData', '{}');
+  };
 
   const offset = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(
@@ -58,6 +96,7 @@ export default function Home() {
       ),
     }),
   );
+
   useEffect(() => {
     offset.value = withRepeat(withTiming(360, {
       duration: 2000,
@@ -65,6 +104,7 @@ export default function Home() {
     }), -1, true);
     return () => cancelAnimation(offset);
   }, []);
+
   return (
     <View style={{
       alignItems: 'center',
@@ -120,7 +160,19 @@ export default function Home() {
         justifyContent: 'center',
       }}
       >
-        <Button mode="contained" onPress={() => promptAsync()} icon={() => <Ionicons name="logo-google" size={24} color="white" />} color="#0EA5E9" style={{ marginTop: 12, width: '90%', paddingVertical: 6 }} labelStyle={{ fontSize: 16 }}>Sign In with google</Button>
+        {userData && JSON.stringify(userData) !== '{}' ? (
+          <>
+            <Text>
+              You&apos;re logged in,
+              {' '}
+              {userData.name}
+              !
+            </Text>
+            <Button mode="contained" onPress={logout} color="#0EA5E9" style={{ marginTop: 12, width: '90%', paddingVertical: 6 }} labelStyle={{ fontSize: 16 }}>Log out</Button>
+          </>
+        ) : (
+          <Button mode="contained" onPress={login} color="#0EA5E9" style={{ marginTop: 12, width: '90%', paddingVertical: 6 }} labelStyle={{ fontSize: 16 }}>Sign In</Button>
+        )}
       </View>
     </View>
   );

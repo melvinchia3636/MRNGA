@@ -20,6 +20,7 @@ import {
 
 // Static assets
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AvatarImage from './src/assets/avatar.jpg';
 
 // Misc components
@@ -37,6 +38,16 @@ export const UserDataContext = React.createContext();
 
 export default function App() {
   const [userData, setUserData] = React.useState({});
+
+  React.useEffect(() => {
+    AsyncStorage.getItem('userData', (err, result) => {
+      if (err) throw err;
+
+      if (result) {
+        setUserData(JSON.parse(result));
+      }
+    });
+  }, []);
 
   return (
     <Provider>
