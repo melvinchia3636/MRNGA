@@ -29,7 +29,7 @@ function ChatApp() {
         message: message.trim(),
         user: {
           email: userData.email,
-          picture: userData.picture,
+          picture: userData.photoUrl,
           username: userData.name,
         },
         created_at: Date.now(),
@@ -42,7 +42,6 @@ function ChatApp() {
     const messages = [];
     if (displayMessages.length) {
       for (let msg of displayMessages) {
-        console.log(msg);
         msg = msg.val();
         if (msg.user.email === messages[messages.length - 1]?.user.email) {
           messages[messages.length - 1].message.push(msg.message);
@@ -52,7 +51,6 @@ function ChatApp() {
         }
       }
       setGroupedMessages(messages);
-      console.log(messages);
     }
   }, [displayMessages]);
 

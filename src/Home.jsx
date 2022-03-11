@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect } from 'react';
 import {
-  View, Text, Alert,
+  View, Text,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,63 +15,34 @@ import Animated, {
   cancelAnimation,
   interpolate,
 } from 'react-native-reanimated';
-import jwtDecode from 'jwt-decode';
-import * as AuthSession from 'expo-auth-session';
+import * as Google from 'expo-google-app-auth';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
-import * as WebBrowser from 'expo-web-browser';
 import { UserDataContext } from '../App';
-
-const auth0ClientId = 'mlBB7azm9BaD8GSRkPnTSy03Z71wX7zy';
-const auth0Domain = 'https://dev-uj9e-526.us.auth0.com';
-
-function toQueryString(params) {
-  return `?${Object.entries(params)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    .join('&')}`;
-}
 
 export default function Home() {
   const { userData, setUserData } = React.useContext(UserDataContext);
 
-  const handleResponse = (response) => {
-    if (response.error) {
-      Alert('Authentication error', response.error_description || 'something went wrong');
-      return;
-    }
+  const signIn = async () => {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId:
+          '30162995463-ocj9s83ink0nts3a0dk10ec7am1epg7a.apps.googleusercontent.com',
+        // iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+        scopes: ['profile', 'email'],
+      });
 
-    const jwtToken = response.id_token;
-    const decoded = jwtDecode(jwtToken);
-
-    const data = decoded;
-    setUserData(data);
-    AsyncStorageLib.setItem('userData', JSON.stringify(data));
-  };
-
-  const login = async () => {
-    const redirectUrl = AuthSession.getRedirectUrl();
-
-    const queryParams = toQueryString({
-      client_id: auth0ClientId,
-      redirect_uri: redirectUrl,
-      response_type: 'id_token',
-      scope: 'openid profile email',
-      nonce: 'nonce',
-    });
-    const authUrl = `${auth0Domain}/authorize${queryParams}`;
-    const response = await AuthSession.startAsync({ authUrl });
-
-    if (response.type === 'success') {
-      handleResponse(response.params);
+      if (result.type === 'success') {
+        setUserData(result.user);
+        AsyncStorageLib.setItem('userData', result.user);
+      } else {
+        console.log('cancelled');
+      }
+    } catch (e) {
+      console.log('error', e);
     }
   };
 
-  const logout = async () => {
-    const returnUrl = 'com.mrnga://dev-uj9e-526.us.auth0.com/android/com.mrnga/callback';
-
-    await WebBrowser.openBrowserAsync(
-      `${auth0Domain}/v2/logout?client_id=${auth0ClientId}&returnTo=${returnUrl}`,
-    );
-
+  const signOut = () => {
     setUserData({});
     AsyncStorageLib.setItem('userData', '{}');
   };
@@ -168,10 +139,10 @@ export default function Home() {
               {userData.name}
               !
             </Text>
-            <Button mode="contained" onPress={logout} color="#0EA5E9" style={{ marginTop: 12, width: '90%', paddingVertical: 6 }} labelStyle={{ fontSize: 16 }}>Log out</Button>
+            <Button mode="contained" onPress={signOut} color="#0EA5E9" style={{ marginTop: 12, width: '90%', paddingVertical: 6 }} labelStyle={{ fontSize: 16 }}>Log out</Button>
           </>
         ) : (
-          <Button mode="contained" onPress={login} color="#0EA5E9" style={{ marginTop: 12, width: '90%', paddingVertical: 6 }} labelStyle={{ fontSize: 16 }}>Sign In</Button>
+          <Button mode="contained" onPress={signIn} color="#0EA5E9" style={{ marginTop: 12, width: '90%', paddingVertical: 6 }} labelStyle={{ fontSize: 16 }}>Sign In</Button>
         )}
       </View>
     </View>

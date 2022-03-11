@@ -80,7 +80,7 @@ export default function App() {
                       padding: 20,
                     }}
                   >
-                    <Avatar.Image source={{ uri: userData.picture }} style={{ backgroundColor: 'white' }} />
+                    <Avatar.Image source={{ uri: userData.photoUrl }} style={{ backgroundColor: 'white' }} />
                     <Text style={{ color: 'white', fontSize: 16, marginTop: 8 }}>{userData.name}</Text>
                     <Text style={{ color: 'white', fontSize: 12 }}>{userData.email}</Text>
                   </ImageBackground>
